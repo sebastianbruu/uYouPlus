@@ -13,6 +13,6 @@ Jailed (sideloaded) YouTube tweak bundle built with Theos. Builds only in CI (ma
 - Tweaks are submodules under `Tweaks/`. Bump `Tweaks/YouTubeHeader` together with tweaks that use it, or builds fail with "no visible @interface ... declares the selector".
 - The main `Makefile` builds tweaks as SUBPROJECTS, so `THEOS_PROJECT_DIR` is the repo root inside every sub-make. Tweak Makefiles that use `$(THEOS_PROJECT_DIR)/...` resolve against the root; CI symlinks `vendor` -> `Tweaks/YTUHD/vendor` for this.
 - YTUHD needs libvpx and dav1d static libs built first (meson, ninja); the "Build YTUHD libraries" CI step does it.
-- `export SIDELOAD = 1` in the main `Makefile` keeps YTUHD from linking libundirect, which a sideloaded app doesn't have.
+- CI passes `SIDELOAD=1` on the `make package` command line so YTUHD bundles a trimmed libundirect instead of linking `-lundirect`. An `export SIDELOAD = 1` in the main `Makefile` did not reach YTUHD.
 - The workflow edits `BUNDLE_ID` / `DISPLAY_NAME` in the `Makefile` by name with `sed`; keep those lines as `NAME = value`.
 - macOS arm64 runners often queue for minutes or retry startup; that's GitHub capacity, not a repo bug.

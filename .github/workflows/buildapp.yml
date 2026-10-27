@@ -147,7 +147,8 @@ jobs:
           ln -sfn Tweaks/YTUHD/vendor vendor
           sed -i '' "s#^BUNDLE_ID = .*#BUNDLE_ID = ${{ env.BUNDLE_ID }}#" Makefile
           sed -i '' "s#^DISPLAY_NAME = .*#DISPLAY_NAME = ${{ env.APP_NAME }}#" Makefile
-          make package THEOS_PACKAGE_SCHEME=rootless IPA=Payload/YouTube.app FINALPACKAGE=1
+          # SIDELOAD=1: YTUHD bundles a trimmed libundirect instead of linking -lundirect
+          make package THEOS_PACKAGE_SCHEME=rootless IPA=Payload/YouTube.app FINALPACKAGE=1 SIDELOAD=1
           echo "package=$(ls -t packages | head -n1)" >>$GITHUB_OUTPUT
           echo -e "==> \033[1mSHASUM256: $(shasum -a 256 packages/*.ipa | cut -f1 -d' ')\033[0m"
           echo -e "==> \033[1mBundle ID: ${{ env.BUNDLE_ID }}\033[0m"

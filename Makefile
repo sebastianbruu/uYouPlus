@@ -13,8 +13,6 @@ export ADDITIONAL_CFLAGS = -I$(THEOS_PROJECT_DIR)/Tweaks/RemoteLog -I$(THEOS_PRO
 ifneq ($(JAILBROKEN),1)
 export DEBUGFLAG = -ggdb -Wno-unused-command-line-argument -L$(THEOS_OBJ_DIR) -F$(_THEOS_LOCAL_DATA_DIR)/$(THEOS_OBJ_DIR_NAME)/install/Library/Frameworks
 MODULES = jailed
-# YTUHD links libundirect unless this is set; no libundirect in a sideloaded app
-export SIDELOAD = 1
 endif
 
 ifndef YOUTUBE_VERSION

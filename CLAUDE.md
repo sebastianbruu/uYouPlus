@@ -15,4 +15,6 @@ Jailed (sideloaded) YouTube tweak bundle built with Theos. Builds only in CI (ma
 - YTUHD needs libvpx and dav1d static libs built first (meson, ninja); the "Build YTUHD libraries" CI step does it.
 - CI passes `SIDELOAD=1` on the `make package` command line so YTUHD bundles a trimmed libundirect instead of linking `-lundirect`. An `export SIDELOAD = 1` in the main `Makefile` did not reach YTUHD.
 - The workflow edits `BUNDLE_ID` / `DISPLAY_NAME` in the `Makefile` by name with `sed`; keep those lines as `NAME = value`.
+- Theos-Jailed's `REMOVE_EXTENSIONS` only deletes `PlugIns/`. CI also deletes `YouTube.app/Extensions/` (ExtensionKit, e.g. AppMigrationExtension), which otherwise makes SideStore fail with "Mismatched bundle IDs".
+- Logos requires `%orig` / `%orig(args)` to end its line; anything after it on the same line errors or is dropped.
 - macOS arm64 runners often queue for minutes or retry startup; that's GitHub capacity, not a repo bug.

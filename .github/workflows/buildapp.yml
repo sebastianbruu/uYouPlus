@@ -122,9 +122,11 @@ jobs:
           cd ${{ github.workspace }}/main
           mv YouTube.ipa YouTube.zip
           unzip -q YouTube.zip
+          # REMOVE_EXTENSIONS only deletes PlugIns/; ExtensionKit extensions here break sideloaders' bundle ID rewrite
+          rm -rf Payload/YouTube.app/Extensions
           youtube_version=$(defaults read "$(pwd)/Payload/YouTube.app/Info" CFBundleVersion)
           echo "==> YouTube v$youtube_version downloaded!"
-          sed -i '' "17s#.*#YOUTUBE_VERSION = ${youtube_version}#g" Makefile
+          sed -i '' "s#^YOUTUBE_VERSION = .*#YOUTUBE_VERSION = ${youtube_version}#" Makefile
           echo "youtube_version=${youtube_version}" >> $GITHUB_OUTPUT
 
         env:

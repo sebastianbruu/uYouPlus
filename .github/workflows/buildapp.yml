@@ -131,6 +131,13 @@ jobs:
           THEOS: ${{ github.workspace }}/theos
           YOUTUBE_URL: ${{ inputs.decrypted_youtube_url }}
 
+      - name: Build YTUHD libraries
+        run: |
+          brew install meson ninja
+          cd ${{ github.workspace }}/main/Tweaks/YTUHD/vendor
+          ./build_libvpx.sh
+          ./build_dav1d.sh
+
       - name: Fix compiling & Build Package
         id: build_package
         run: |

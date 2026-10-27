@@ -159,11 +159,12 @@ YTMainAppControlsOverlayView *controlsOverlayView;
 // Hide autoplay switch
 - (void)setAutoplaySwitchButtonRenderer:(id)arg1 { // hide Autoplay
     if (IS_ENABLED(kHideAutoplaySwitch)) {}
-    else { return %orig; }
+    else return %orig;
 }
 // Hide CC button
 - (void)setClosedCaptionsOrSubtitlesButtonAvailable:(BOOL)arg1 {
-    return IS_ENABLED(kHideCC) ? %orig(NO) : %orig;
+    if (IS_ENABLED(kHideCC)) return %orig(NO);
+    return %orig;
 }
 %end
 
@@ -181,7 +182,7 @@ YTMainAppControlsOverlayView *controlsOverlayView;
 %hook YTAnnotationsViewController
 - (void)loadFeaturedChannelWatermark {
     if (IS_ENABLED(kHideChannelWatermark)) {}
-    else { return %orig; }
+    else return %orig;
 }
 %end
 %hook YTColdConfig
@@ -242,7 +243,7 @@ YTMainAppControlsOverlayView *controlsOverlayView;
 %hook YTReelWatchRootViewController
 - (void)setPausedStateCarouselView {
     if (IS_ENABLED(kHideSubscriptions)) {}
-    else { return %orig; }
+    else return %orig;
 }
 %end
 
@@ -297,7 +298,9 @@ YTMainAppControlsOverlayView *controlsOverlayView;
 %end
 
 %hook YTHeaderContentComboView
-- (void)setFeedHeaderScrollMode:(int)arg1 { %orig(0); }
+- (void)setFeedHeaderScrollMode:(int)arg1 {
+    %orig(0);
+}
 %end
 %end
 

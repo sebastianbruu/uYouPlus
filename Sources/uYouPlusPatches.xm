@@ -5,7 +5,8 @@
 // Fix Google Sign in by @PoomSmart and @level3tjg (qnblackcat/uYouPlus#684)
 %hook NSBundle
 - (NSDictionary *)infoDictionary {
-    NSMutableDictionary *info = %orig.mutableCopy;
+    NSDictionary *origInfo = %orig;
+    NSMutableDictionary *info = origInfo.mutableCopy;
     if ([self isEqual:NSBundle.mainBundle] && [[NSUserDefaults standardUserDefaults] boolForKey:kGoogleSigninFix])
         info[@"CFBundleIdentifier"] = @"com.google.ios.youtube";
     return info;
@@ -47,7 +48,7 @@
 %hook YTMainAppVideoPlayerOverlayViewController
 - (void)updateRelatedVideos {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"relatedVideosAtTheEndOfYTVideos"] == NO) {}
-    else { return %orig; }
+    else return %orig;
 }
 %end
 
@@ -114,7 +115,8 @@ static NSUInteger selectedTabIndex;
     return downloadsPagerVC;
 }
 - (void)viewPager:(id)viewPager didChangeTabToIndex:(NSUInteger)arg1 fromTabIndex:(NSUInteger)arg2 {
-    %orig; selectedTabIndex = arg1;
+    %orig;
+    selectedTabIndex = arg1;
 }
 %end
 static void refreshUYouAppearance() {

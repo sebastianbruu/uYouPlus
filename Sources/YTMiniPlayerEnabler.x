@@ -4,6 +4,6 @@
 %hook YTWatchMiniBarViewController
 - (void)updateMiniBarPlayerStateFromRenderer {
     if (IS_ENABLED(kYTMiniPlayer)) {}
-    else { return %orig; }
+    else return %orig;
 }
 %end

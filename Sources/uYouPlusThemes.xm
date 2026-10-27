@@ -126,7 +126,8 @@ UIColor* raisedColor = [UIColor colorWithRed:0.035 green:0.035 blue:0.035 alpha:
 // Download sort
 %hook GOODialogView
 - (void)setBackgroundColor:(UIColor *)color {
-    return IS_DARK_APPEARANCE_ENABLED ? %orig([UIColor blackColor]) : %orig;
+    if (IS_DARK_APPEARANCE_ENABLED) return %orig([UIColor blackColor]);
+    return %orig;
 }
 %end
 
@@ -147,7 +148,7 @@ UIColor* raisedColor = [UIColor colorWithRed:0.035 green:0.035 blue:0.035 alpha:
     if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
         %orig;
         self.tableView.backgroundColor = [UIColor blackColor];
-    } else { return %orig; }
+    } else return %orig;
 }
 %end
 
@@ -156,7 +157,7 @@ UIColor* raisedColor = [UIColor colorWithRed:0.035 green:0.035 blue:0.035 alpha:
     if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
         %orig;
         self.view.backgroundColor = [UIColor blackColor];
-    } else { return %orig; }
+    } else return %orig;
 }
 %end
 
@@ -209,13 +210,15 @@ UIColor* raisedColor = [UIColor colorWithRed:0.035 green:0.035 blue:0.035 alpha:
 // Open link with...
 %hook ASWAppSwitchingSheetHeaderView
 - (void)setBackgroundColor:(UIColor *)color {
-    return IS_DARK_APPEARANCE_ENABLED ? %orig(raisedColor) : %orig;
+    if (IS_DARK_APPEARANCE_ENABLED) return %orig(raisedColor);
+    return %orig;
 }
 %end
 
 %hook ASWAppSwitchingSheetFooterView
 - (void)setBackgroundColor:(UIColor *)color {
-    return IS_DARK_APPEARANCE_ENABLED ? %orig(raisedColor) : %orig;
+    if (IS_DARK_APPEARANCE_ENABLED) return %orig(raisedColor);
+    return %orig;
 }
 %end
 
@@ -274,7 +277,9 @@ UIColor* raisedColor = [UIColor colorWithRed:0.035 green:0.035 blue:0.035 alpha:
 %end
 
 %hook UIKBRenderConfig // Prediction text color
-- (void)setLightKeyboard:(BOOL)arg1 { %orig(NO); }
+- (void)setLightKeyboard:(BOOL)arg1 {
+    %orig(NO);
+}
 %end
 %end
 
